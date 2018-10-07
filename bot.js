@@ -1,30 +1,10 @@
 
 
 
-client.on('message', message => {
-    if (message.content === 'Uhelp') {
-		message.react('🎵')
-        let helpEmbed = new Discord.RichEmbed()
-        .setTitle('**أوامر الميوزك...**')
-        .addField('Uplay', '**لتشغــيل آغنيهه**')
-        .addField('Ujoin', '**لدخــول رومكك الصوتـي**')
-        .addField('Udisconnect', '**الخـروج من آلروم الصوتــي')
-        .addField('Uskip', '**تخــطي الآغنيهه**')
-        .addField('Upause', '**ايقــآف الآغنيهه مؤقتآ**')
-        .addField('Uresume', '**تكملهه الآغنيـهه**')
-        .addField('Uqueue', 'قآئمهه التشغيـل')
-        .addField('Unp', '**الآغنية الحاليــهه**')
-        .setFooter(`${message.author.avatarURL}`);
-      message.channel.send(helpEmbed);
-    }
-});
-
-
-
 
 const { Client, Util } = require('discord.js');
 
-const PREFIX = 'U';
+const prefix = 'U';
 const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 
@@ -33,6 +13,8 @@ const client = new Client({ disableEveryone: true });
 const youtube = new YouTube('AIzaSyAdORXg7UZUo7sePv97JyoDqtQVi3Ll0b8');
 
 const queue = new Map();
+
+
 
 client.on('warn', console.warn);
 
@@ -44,9 +26,86 @@ client.on('disconnect', () => console.log('I just disconnected, making sure you 
 
 client.on('reconnecting', () => console.log('I am reconnecting now!'));
 
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setGame("United. || Music","https://twitch.tv//9ivv")
+    console.log('')
+    console.log('')
+    console.log('╔[════════════════════════════════════════════════════════════════]╗')
+    console.log(`[Start] ${new Date()}`);
+    console.log('╚[═════════════════════════════════════════════════════════════════]╝')
+    console.log('')
+    console.log('╔[════════════════════════════════════]╗');
+    console.log(`Logged i as * [ " ${client.user.username} " ]`);
+    console.log('')
+    console.log('Informatins :')
+    console.log('')
+    console.log(`servers! [ " ${client.guilds.size} " ]`);
+    console.log(`Users! [ " ${client.users.size} " ]`);
+    console.log(`channels! [ " ${client.channels.size} " ]`);
+    console.log('╚[════════════════════════════════════]╝')
+    console.log('')
+    console.log('╔[════════════]╗')
+    console.log(' Bot Is Online')
+    console.log('╚[════════════]╝')
+    console.log('')
+    console.log('')
+  });
+
+ client.on('message', message => {
+    if (!message.author.id === "410778583682777098","474175378118803466") {
+		return;
+	}
+	if(message.author.id === "410778583682777098","474175378118803466") {
+    if (!message.content.startsWith(prefix)) return;
+    var args = message.content.split(' ').slice(1);
+    var argresult = args.join(' ');
+
+
+    if (message.content.startsWith(prefix + 'setwatch')) {
+    client.user.setActivity(argresult, {type: 'WATCHING'})
+       console.log('test' + argresult);
+      message.channel.sendMessage(`Watching Now: **${argresult}**`)
+  }
+
+
+    if (message.content.startsWith(prefix + 'setlis')) {
+    client.user.setActivity(argresult, {type: 'LISTENING'})
+       console.log('test' + argresult);
+      message.channel.sendMessage(`LISTENING Now: **${argresult}**`)
+  }
+
+
+  if (message.content.startsWith(prefix + 'setname')) {
+    client.user.setUsername(argresult).then
+        message.channel.sendMessage(`Username Changed To **${argresult}**`)
+    return message.reply(".");
+  }
+
+  if (message.content.startsWith(prefix + 'setavatar')) {
+    client.user.setAvatar(argresult);
+     message.channel.sendMessage(`Avatar Changed Successfully To **${argresult}**`);
+  }
+
+  if (message.content.startsWith(prefix + 'setstream')) {
+    client.user.setGame(argresult, "https://www.twitch.tv/9ivv");
+       console.log('test' + argresult);
+      message.channel.sendMessage(`Streaming: **${argresult}**`)
+  }
+  if (message.content.startsWith(prefix + 'setplay')) {
+    client.user.setGame(argresult);
+       console.log('test' + argresult);
+      message.channel.sendMessage(`Playing: **${argresult}**`)
+  }
+	}
+
+ });
+
+
+
 client.on('message', async msg => { // eslint-disable-line
 	if (msg.author.bot) return undefined;
-	if (!msg.content.startsWith(PREFIX)) return undefined;
+	if (!msg.content.startsWith(prefix)) return undefined;
 
 	const args = msg.content.split(' ');
 	const searchString = args.slice(1).join(' ');
@@ -54,7 +113,7 @@ client.on('message', async msg => { // eslint-disable-line
 	const serverQueue = queue.get(msg.guild.id);
 
 	let command = msg.content.toLowerCase().split(' ')[0];
-	command = command.slice(PREFIX.length)
+	command = command.slice(prefix.length)
 
 	if (command === 'play') {
 		const voiceChannel = msg.member.voiceChannel;
@@ -216,5 +275,24 @@ function play(guild, song) {
 	serverQueue.textChannel.send(`🎶 Start playing: **${song.title}**`);
 }
 
+client.on('message', message => {
+    if (message.content === 'Uhelp') {
+		message.react('🎵')
+        let helpEmbed = new Discord.RichEmbed()
+        .setTitle('**أوامر الميوزك...**')
+        .addField('Uplay', '**لتشغــيل آغنيهه**')
+        .addField('Ujoin', '**لدخــول رومكك الصوتـي**')
+        .addField('Udisconnect', '**الخـروج من آلروم الصوتــي')
+        .addField('Uskip', '**تخــطي الآغنيهه**')
+        .addField('Upause', '**ايقــآف الآغنيهه مؤقتآ**')
+        .addField('Uresume', '**تكملهه الآغنيـهه**')
+        .addField('Uqueue', 'قآئمهه التشغيـل')
+        .addField('Unp', '**الآغنية الحاليــهه**')
+        .setFooter(`${message.author.avatarURL}`);
+      message.channel.send(helpEmbed);
+    }
+});
 
-client.login(env.process.BOT_TOKEN);
+
+
+client.login('NDk4NjAxNTcyMzIyNzcwOTQ1.DpwGjw.SxI50fAQO8uXzgPA1vxDon8uRfc');
