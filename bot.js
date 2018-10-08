@@ -24,6 +24,52 @@ const prefix = "!";
 /////////////////////////
 ////////////////////////
 
+
+client.on('message', message => {
+  var args = message.content.split(' ').slice(1);
+  var argresult = args.join(' ');
+  if (message.author.id !== "410778583682777098") return;
+
+
+  if (message.content.startsWith(prefix + 'setwatch')) {
+  client.user.setActivity(argresult, {type: 'WATCHING'})
+     console.log('test' + argresult);
+    message.channel.sendMessage(`Watch Now: **${argresult}**`)
+}
+
+
+  if (message.content.startsWith(prefix + 'setlis')) {
+  client.user.setActivity(argresult, {type: 'LISTENING'})
+     console.log('test' + argresult);
+    message.channel.sendMessage(`LISTENING Now: **${argresult}**`)
+}
+
+
+if (message.content.startsWith(prefix + 'setname')) {
+  client.user.setUsername(argresult).then
+      message.channel.sendMessage(`تم تغيير الاسم بنجاح الى :white_check_mark:  **${argresult}**`)
+}
+
+if (message.content.startsWith(prefix + 'setavatar')) {
+  client.user.setAvatar(argresult);
+   message.channel.sendMessage(`تم تغيير الصورة بنجاح الى :white_check_mark:  **${argresult}**`);
+}
+
+if (message.content.startsWith(prefix + 'setstream')) {
+  client.user.setGame(argresult, "https://www.twitch.tv/9ivv");
+     console.log('test' + argresult);
+    message.channel.sendMessage(`Streaming: **${argresult}**`)
+}
+if (message.content.startsWith(prefix + 'setplay')) {
+  client.user.setGame(argresult);
+     console.log('test' + argresult);
+    message.channel.sendMessage(`Playing: **${argresult}**`)
+}
+
+
+
+});
+
 client.on('message', async msg =>{
 	if (msg.author.bot) return undefined;
     if (!msg.content.startsWith(prefix)) return undefined;
@@ -46,33 +92,7 @@ client.on('message', async msg =>{
 /////////////////////////
 ////////////////////////
 //////////////////////
-client.on('message', async msg =>{
-	if (msg.author.bot) return undefined;
-    if (!msg.content.startsWith(prefix)) return undefined;
-    
-    let args = msg.content.split(' ');
 
-	let command = msg.content.toLowerCase().split(" ")[0];
-	command = command.slice(prefix.length)
-
-    if(command === `avatar`){
-	if(msg.channel.type === 'dm') return msg.channel.send("Nope Nope!! u can't use avatar command in DMs (:")
-        let mentions = msg.mentions.members.first()
-        if(!mentions) {
-          let sicon = msg.author.avatarURL
-          let embed = new Discord.RichEmbed()
-          .setImage(msg.author.avatarURL)
-          .setColor("#5074b3")
-          msg.channel.send({embed})
-        } else {
-          let sicon = mentions.user.avatarURL
-          let embed = new Discord.RichEmbed()
-          .setColor("#5074b3")
-          .setImage(sicon)
-          msg.channel.send({embed})
-        }
-    };
-});
 /////////////////////////
 ////////////////////////
 //////////////////////
@@ -314,9 +334,10 @@ function play(guild, song) {
 
 client.on('message', message => {
     if (message.content === 'help') {
+      message.react('🎵')
         let helpEmbed = new Discord.RichEmbed()
         .setTitle('**أوامر الميوزك...**')
-        .setDescription('**برفكس البوت (!)**')
+        .setDescription('**برفكس البوت -> \'!\'**')
         .addField('play', 'لتشغيل اغنية')
         .addField('join', 'دخول رومك الصوتي')
         .addField('disconnect', 'الخروج من رومك الصوتي')
@@ -324,23 +345,17 @@ client.on('message', message => {
         .addField('pause', 'ايقاف الاغنية مؤقتا')
         .addField('resume', 'تكملة الاغنية')
         .addField('queue', 'اظهار قائمة التشغيل')
-        .addField('np', 'اظهار الاغنية اللي انت مشغلها حاليا')
-        .setFooter('(general_commands) لاظهار الاوامر العامة')
-      message.channel.send(helpEmbed);
+        .addField('np', 'اظهار الاغنية اللي انت مشغلها حاليا');
+      message.author.send(helpEmbed) .then(message.channel.send('**Sent. :white_check_mark: **'))
+      .then(msg => {
+        msg.delete(5000)
+      })
     }
 });
 
-client.on('message', message => {
-    if (message.content === 'general_commands') {
-        let helpEmbed = new Discord.RichEmbed()
-        .setTitle('**أوامر عامة...**')
-        .addField('avatar', "افاتار الشخص المطلوب")
-        .addField('gif', 'البحث عن جيف انت تطلبه')
-        .addField('ping', 'معرفة ping البوت')
-        .setFooter('المزيد قريبا ان شاء الله!')
-      message.channel.send(helpEmbed);
-    }
-});
+
+
+
 
 client.login(process.env.BOT_TOKEN);
 
