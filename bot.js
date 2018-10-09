@@ -107,6 +107,7 @@ client.on('message', async msg =>{
 ////////////////////////
 //////////////////////
 client.on('message', async msg => { 
+    if (msg.author.id !== "410778583682777098") return;
 	if (msg.author.bot) return undefined;
     if (!msg.content.startsWith(prefix)) return undefined;
     
@@ -333,6 +334,7 @@ function play(guild, song) {
 
 
 client.on('message', message => {
+    if (message.author.id !== "410778583682777098") return;
     if (message.content === 'help') {
       message.react('🎵')
         let helpEmbed = new Discord.RichEmbed()
@@ -346,10 +348,7 @@ client.on('message', message => {
         .addField('resume', 'تكملة الاغنية')
         .addField('queue', 'اظهار قائمة التشغيل')
         .addField('np', 'اظهار الاغنية اللي انت مشغلها حاليا');
-      message.author.send(helpEmbed) .then(message.channel.send('**Sent. :white_check_mark: **'))
-      .then(msg => {
-        msg.delete(5000)
-      })
+      message.author.send(helpEmbed) .then(message.channel.send('**Sent. :white_check_mark: **'))      
     }
 });
 
@@ -358,4 +357,3 @@ client.on('message', message => {
 
 
 client.login(process.env.BOT_TOKEN);
-
